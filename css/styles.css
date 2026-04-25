@@ -1,0 +1,318 @@
+/* ==========================================
+   1. VARIABLES GLOBALES
+=========================================== */
+:root {
+  --color-fondo: #fff8f0;
+  --color-primario: #ff6b35;
+  --color-secundario: #4ecdc4;
+  --color-correcto: #6bcb77;
+  --color-error: #ff4d4d;
+
+  --sombra-suave: 0 4px 12px rgba(0, 0, 0, 0.15);
+  --radio-borde: 12px;
+}
+
+/* ==========================================
+   2. RESET
+=========================================== */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+img,
+picture,
+video,
+canvas,
+svg {
+  display: block;
+  max-width: 100%;
+}
+
+/* ==========================================
+   3. BODY
+=========================================== */
+body {
+  min-height: 100vh;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  position: relative;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background-image: url("../assets/images/bg/fondo.jpg");
+  background-size: cover;
+  background-position: center;
+  opacity: 0.4;
+  z-index: -1;
+}
+/* ==========================================
+   4. SCENE — Layout principal
+=========================================== */
+.scene {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  height: 100vh;
+}
+
+/* Columna izquierda: personaje */
+.scene__character {
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+}
+
+.scene__character-image {
+  width: 100%;
+  object-fit: contain;
+}
+
+/* Columna derecha: zona interactiva */
+.scene__interactive {
+  display: flex;
+  flex-direction: column;
+  padding: 3rem 1rem;
+  gap: 1rem;
+}
+
+/* Cajas destino */
+.scene__boxes {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1rem;
+  align-items: end;
+}
+
+/* Figuras arrastrables */
+.scene__figures {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1rem;
+  margin-top: auto;
+  align-items: center;
+  justify-items: center;
+}
+
+/* ==========================================
+   5. SCENE__PROGRESS — Barra de progreso
+=========================================== */
+.scene__progress {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  width: 100%;
+}
+
+.scene__progress-track {
+  width: 100%;
+  height: 18px;
+  background-color: #e0e0e0;
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.scene__progress-fill {
+  height: 100%;
+  width: 0%;
+  background-color: var(--color-correcto);
+  border-radius: 999px;
+  transition: width 0.4s ease;
+}
+
+.scene__progress-label {
+  font-size: 4rem;
+  font-weight: 600;
+  color: black;
+}
+
+/* ==========================================
+   6. SCENE__DROP-ZONE — Cajas destino
+=========================================== */
+.scene__drop-zone {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radio-borde);
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.scene__drop-zone-image {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  pointer-events: none;
+}
+
+/* Figura sobrevolando la caja */
+.scene__drop-zone--activa {
+  transform: scale(1.06);
+  box-shadow: 0 0 0 3px var(--color-secundario);
+}
+
+/* Figura colocada correctamente */
+.scene__drop-zone--correcta {
+  box-shadow: 0 0 0 3px var(--color-correcto);
+}
+
+/* ==========================================
+   7. SCENE__FIGURE — Figuras arrastrables
+=========================================== */
+.scene__figure {
+  object-fit: contain;
+  cursor: grab;
+  user-select: none;
+  transition:
+    transform 0.2s ease,
+    opacity 0.2s ease;
+}
+
+.scene__figure:hover {
+  transform: scale(1.08);
+}
+
+.scene__figure:active {
+  cursor: grabbing;
+}
+
+/* Figura siendo arrastrada */
+.scene__figure--arrastrando {
+  opacity: 0.4;
+}
+
+/* Figura colocada correctamente */
+.scene__figure--colocada {
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* Figura soltada en lugar incorrecto */
+.scene__figure--error {
+  animation: shake 0.4s ease;
+}
+
+/* Clon visual para arrastre táctil */
+.figura-clon {
+  position: fixed;
+  width: 100px;
+  height: 100px;
+  object-fit: contain;
+  pointer-events: none;
+  opacity: 0.85;
+  z-index: 1000;
+}
+
+/* ==========================================
+   8. COMPLETADO — Pantalla final
+=========================================== */
+.completado {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.4s ease;
+}
+
+/* Overlay visible */
+.completado--visible {
+  opacity: 1;
+  pointer-events: all;
+}
+
+/* Tarjeta de felicitación */
+.completado__tarjeta {
+  background-color: #ffffff;
+  border-radius: 24px;
+  padding: 64px 80px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+  text-align: center;
+  transform: scale(0.8);
+  transition: transform 0.4s ease;
+}
+
+.completado--visible .completado__tarjeta {
+  transform: scale(1);
+}
+
+.completado__titulo {
+  font-size: 3.5rem;
+  font-weight: 800;
+  color: var(--color-primario);
+}
+
+.completado__subtexto {
+  font-size: 1.4rem;
+  color: #555;
+}
+
+.completado__boton {
+  margin-top: 16px;
+  padding: 16px 48px;
+  background-color: var(--color-primario);
+  color: #ffffff;
+  border: none;
+  border-radius: 999px;
+  font-size: 1.2rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition:
+    transform 0.2s ease,
+    background-color 0.2s ease;
+}
+
+.completado__boton:hover {
+  background-color: #e55a28;
+  transform: scale(1.05);
+}
+
+/* Canvas del confeti */
+.completado__confeti {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 101;
+}
+
+/* ==========================================
+   9. ANIMACIONES
+=========================================== */
+@keyframes shake {
+  0% {
+    transform: translateX(0);
+  }
+  20% {
+    transform: translateX(-8px);
+  }
+  40% {
+    transform: translateX(8px);
+  }
+  60% {
+    transform: translateX(-6px);
+  }
+  80% {
+    transform: translateX(6px);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
