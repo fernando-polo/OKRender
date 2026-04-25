@@ -200,6 +200,22 @@ body::before {
   animation: shake 0.4s ease;
 }
 
+/* Posición de las figuras */
+#figura-estrella {
+  position: relative;
+  bottom: 30px;
+}
+
+#figura-triangulo {
+  position: relative;
+  top: 20px;
+}
+
+#figura-pentagono {
+  position: relative;
+  bottom: 25px;
+}
+
 /* Clon visual para arrastre táctil */
 .figura-clon {
   position: fixed;

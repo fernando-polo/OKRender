@@ -162,7 +162,10 @@ function colocarFiguraCorrecta(zona, figura) {
   actualizarProgreso();
 
   const audioExito = document.getElementById("audio-exito");
-  if (audioExito.src) audioExito.play();
+  if (audioExito.src) {
+    audioExito.currentTime = 0;
+    audioExito.play();
+  }
 
   if (figurasColocadas === TOTAL_FIGURAS) {
     setTimeout(() => mostrarCompletado(), 600);
@@ -171,7 +174,10 @@ function colocarFiguraCorrecta(zona, figura) {
 
 function mostrarError(figura) {
   const audioError = document.getElementById("audio-error");
-  if (audioError.src) audioError.play();
+  if (audioError.src) {
+    audioError.currentTime = 0;
+    audioError.play();
+  }
 
   figura.classList.add("scene__figure--error");
   figura.addEventListener(
