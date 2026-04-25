@@ -1,0 +1,162 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Acomodo de figuras</title>
+    <link rel="stylesheet" href="css/styles.css" />
+  </head>
+
+  <body>
+    <!-- ==========================================
+         ESCENA PRINCIPAL
+    =========================================== -->
+    <main class="scene">
+      <!-- Columna izquierda: personaje -->
+      <section class="scene__character">
+        <img
+          class="scene__character-image"
+          src="assets/images/character/nino.png"
+          alt="Personaje"
+        />
+      </section>
+
+      <!-- Columna derecha: zona interactiva -->
+      <section class="scene__interactive">
+        <!-- Cajas destino -->
+        <section class="scene__boxes">
+          <div
+            class="scene__drop-zone"
+            id="zona-triangulo"
+            data-acepta="triangulo"
+          >
+            <img
+              class="scene__drop-zone-image"
+              src="assets/images/boxes/caja-triangulo.png"
+              alt="Caja triángulo"
+            />
+          </div>
+
+          <div
+            class="scene__drop-zone"
+            id="zona-pentagono"
+            data-acepta="pentagono"
+          >
+            <img
+              class="scene__drop-zone-image"
+              src="assets/images/boxes/caja-pentagono.png"
+              alt="Caja pentágono"
+            />
+          </div>
+
+          <div class="scene__drop-zone" id="zona-rombo" data-acepta="rombo">
+            <img
+              class="scene__drop-zone-image"
+              src="assets/images/boxes/caja-rombo.png"
+              alt="Caja rombo"
+            />
+          </div>
+
+          <div
+            class="scene__drop-zone"
+            id="zona-estrella"
+            data-acepta="estrella"
+          >
+            <img
+              class="scene__drop-zone-image"
+              src="assets/images/boxes/caja-estrella.png"
+              alt="Caja estrella"
+            />
+          </div>
+        </section>
+
+        <!-- Barra de progreso -->
+        <div class="scene__progress">
+          <div class="scene__progress-track">
+            <div class="scene__progress-fill" id="progress-fill"></div>
+          </div>
+          <span class="scene__progress-label" id="progress-label">0 / 4</span>
+        </div>
+
+        <!-- Figuras arrastrables -->
+        <section class="scene__figures">
+          <img
+            class="scene__figure"
+            id="figura-rombo"
+            src="assets/images/figures/figura-rombo.png"
+            alt="Rombo"
+            data-tipo="rombo"
+            draggable="true"
+          />
+
+          <img
+            class="scene__figure"
+            id="figura-estrella"
+            src="assets/images/figures/figura-estrella.png"
+            alt="Estrella"
+            data-tipo="estrella"
+            draggable="true"
+          />
+
+          <img
+            class="scene__figure"
+            id="figura-triangulo"
+            src="assets/images/figures/figura-triangulo.png"
+            alt="Triángulo"
+            data-tipo="triangulo"
+            draggable="true"
+          />
+
+          <img
+            class="scene__figure"
+            id="figura-pentagono"
+            src="assets/images/figures/figura-pentagono.png"
+            alt="Pentágono"
+            data-tipo="pentagono"
+            draggable="true"
+          />
+        </section>
+      </section>
+    </main>
+
+    <!-- ==========================================
+         PANTALLA DE COMPLETADO
+    =========================================== -->
+    <div class="completado" id="completado" aria-hidden="true">
+      <div class="completado__tarjeta">
+        <h2 class="completado__titulo">¡Muy bien!</h2>
+        <p class="completado__subtexto">
+          Acomodaste todas las figuras correctamente.
+        </p>
+        <button class="completado__boton" id="boton-reiniciar">
+          Intentar de nuevo
+        </button>
+      </div>
+      <canvas class="completado__confeti" id="confeti-canvas"></canvas>
+    </div>
+
+    <!-- ==========================================
+         AUDIOS
+    =========================================== -->
+    <audio
+      id="audio-instruccion"
+      src="assets/audio/audio-instruccion.mp3"
+      preload="auto"
+    ></audio>
+    <audio
+      id="audio-error"
+      src="assets/audio/audio-error.mp3"
+      preload="auto"
+    ></audio>
+    <audio
+      id="audio-exito"
+      src="assets/audio/audio-exito.mp3"
+      preload="auto"
+    ></audio>
+
+    <!-- ==========================================
+         SCRIPTS
+    =========================================== -->
+    <script src="js/main.js"></script>
+  </body>
+</html>
